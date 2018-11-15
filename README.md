@@ -14,3 +14,12 @@ choco install meteor
 choco upgrade chocolatey
 ```
 
+# Rakenduse tegemine
+
+`meteor create simple-todos`
+
+# Rakenduse käivitamine
+
+`meteor`
+
+
