@@ -268,7 +268,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Tasks } from '../api/tasks.js';
 ```
  
-renderTasks komponendi App sisse ja sisu ära vahetada, et oleks järgnev
+renderTasks komponendi App sisse ja sisu ära vahetada järgnevaks
 ```
 renderTasks() {
   return this.props.tasks.map((task) => (
