@@ -25,7 +25,7 @@ choco upgrade chocolatey
 
 # Todo tegemine
 
-Kuvamiseks kasutame Reacti, et seda thea, siis installimiseks
+Kuvamiseks kasutame Reacti, et seda teha, siis installimiseks
 ```
 meteor npm install --save react react-dom
 ```
