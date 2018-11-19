@@ -26,21 +26,20 @@ choco upgrade chocolatey
 # Todo tegemine
 
 Kuvamiseks kasutame Reacti, et seda thea, siis installimiseks
-
 ```
 meteor npm install --save react react-dom
 ```
 
 
-client/main.html
-
+**client/main.html**
 ```
-<div id="render-target"></div>
+<body>
+  <div id="render-target"></div>
+</body>
 ```
 
 
-client/main.js
-
+**client/main.js**
 ```
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
@@ -58,8 +57,7 @@ Meteor.startup(() => {
 
 Loo kaust imports/ui ja sinna sisse failid App.js ja Task.js
 
-imports/ui/App.js
-
+**imports/ui/App.js**
 ```
 import React, { Component } from 'react';
  
@@ -99,8 +97,7 @@ export default class App extends Component {
 ```
 
 
-imports/ui/Task.js
-
+**imports/ui/Task.js**
 ```
 import React, { Component } from 'react';
  
@@ -115,8 +112,7 @@ export default class Task extends Component {
 ```
 
 
-Et vahepeal asja ilusamaks teha, võib lisada CSSi, client/main.css faili, näiteks
-
+Et vahepeal asja ilusamaks teha, võib lisada CSSi, **client/main.css** faili, näiteks
 ```
 body {
   font-family: sans-serif;
@@ -243,4 +239,69 @@ header .hide-completed {
     padding-bottom: 5px;
   }
 }
+```
+
+
+Hetkel taskid tulevad ette antud nimekirjast, mida muuta ei saa, et asju lisada ja kuskil hoida, kasutame mongot. Selleks loome faili **imports/api/task.js**, mille sisu on
+```
+import { Mongo } from 'meteor/mongo';
+ 
+export const Tasks = new Mongo.Collection('tasks');
+```
+
+
+Selle impordime failis **server/main.js**
+```
+import '../imports/api/tasks.js';
+```
+
+
+Et Reacti komponendi sees seda datat mida salvestame kasutada siis põhikaustas
+```
+meteor add react-meteor-data
+```
+
+Lisame **imports/ui/App.js** faili veel mõned read
+```
+Algusesse 2 importi
+
+import { withTracker } from 'meteor/react-meteor-data';
+import { Tasks } from '../api/tasks.js';
+
+ 
+renderTasks komponendi App sisse ja sisu ära vahetada, et oleks järgnev
+
+renderTasks() {
+  return this.props.tasks.map((task) => (
+    <Task key={task._id} task={task} />
+  ));
+}
+
+
+kõige lõppu
+
+export default withTracker(() => {
+  return {
+    tasks: Tasks.find({}).fetch(),
+  };
+})(App);
+```
+
+Lisame mõned kirjed siis, et veebist näha oleks
+`meteor mongo` konsooli ja siis `db.tasks.insert({ text: "Task1", createdAt: new Date() });` lisab uue kirje
+
+
+```
+```
+
+
+```
+```
+
+
+```
+```
+
+
+```
 ```
