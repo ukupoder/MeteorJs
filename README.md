@@ -63,7 +63,6 @@ import React, { Component } from 'react';
  
 import Task from './Task.js';
  
-// App component - represents the whole app
 export default class App extends Component {
   getTasks() {
     return [
@@ -267,7 +266,16 @@ Lisame **imports/ui/App.js** faili veel mõned read, algusesse 2 importi
 import { withTracker } from 'meteor/react-meteor-data';
 import { Tasks } from '../api/tasks.js';
 ```
- 
+
+App komponent ei tohi olla enam
+```
+export default class App extends Component
+```
+vaid  peab olema
+```
+export class App extends Component
+```
+
 renderTasks komponendi App sisse ja sisu ära vahetada järgnevaks
 ```
 renderTasks() {
