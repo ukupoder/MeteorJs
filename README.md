@@ -241,6 +241,7 @@ header .hide-completed {
 }
 ```
 
+## Taskid andmebaasist
 
 Hetkel taskid tulevad ette antud nimekirjast, mida muuta ei saa, et asju lisada ja kuskil hoida, kasutame mongot. Selleks loome faili **imports/api/task.js**, mille sisu on
 ```
@@ -288,20 +289,92 @@ export default withTracker(() => {
 ```
 
 Lisame mõned kirjed siis, et veebist näha oleks
-`meteor mongo` konsooli ja siis `db.tasks.insert({ text: "Task1", createdAt: new Date() });` lisab uue kirje
-
-
+`meteor mongo` konsooli ja siis 
+```db.tasks.insert({ text: "Task1", createdAt: new Date() });
 ```
-```
+lisab uue kirje
 
 
+##Vormi abil veebist lisamine
+
+**imports/ui/App.js** header osasse renderi sees läheb
 ```
+<form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
+  <input
+    type="text"
+    ref="textInput"
+    placeholder="Type to add new tasks"
+  />
+</form>
 ```
 
-
+ja App komponent saab uue meetodi
 ```
+handleSubmit(event) {
+  event.preventDefault();
+
+  // Leiab tekstivälja Reacti *refs* abil
+  const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+
+  Tasks.insert({
+    text,
+    createdAt: new Date(), // current time
+  });
+
+  // Tühjendab vormi
+  ReactDOM.findDOMNode(this.refs.textInput).value = '';
+}
 ```
 
-
+viimasena veel uuendame expordi return statementi, uus näeb välja selline
 ```
+export default withTracker(() => {
+  return {
+    tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
+  };
+})(App);
+```
+
+## Taskide tehtuks märkimina ja kustutamine
+Et oleks võimalik veebis taske maha tõmmata ja kustutada, on vaja muuta **imports/ui/Task.js** faili
+Lisame impordi
+```
+import { Tasks } from '../api/tasks.js';
+```
+
+Komponent Task saab omale uued meetodid `toggleChecked()` ja `deleteThisTask()`
+```
+toggleChecked() {
+  Tasks.update(this.props.task._id, {
+    $set: { checked: !this.props.task.checked },
+  });
+}
+
+deleteThisTask() {
+  Tasks.remove(this.props.task._id);
+}
+```
+
+Samuti uuendame Task'i render meetodi sisu
+```
+render() {
+  const taskClassName = this.props.task.checked ? 'checked' : '';
+
+  return (
+    <li className={taskClassName}>
+    <button className="delete" onClick={this.deleteThisTask.bind(this)}>
+      &times;
+    </button>
+
+    <input
+      type="checkbox"
+      readOnly
+      checked={!!this.props.task.checked}
+      onClick={this.toggleChecked.bind(this)}
+    />
+
+    <span className="text">{this.props.task.text}</span>
+    </li>
+  );
+}
 ```
