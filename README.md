@@ -262,25 +262,23 @@ Et Reacti komponendi sees seda datat mida salvestame kasutada siis põhikaustas
 meteor add react-meteor-data
 ```
 
-Lisame **imports/ui/App.js** faili veel mõned read
+Lisame **imports/ui/App.js** faili veel mõned read, algusesse 2 importi
 ```
-Algusesse 2 importi
-
 import { withTracker } from 'meteor/react-meteor-data';
 import { Tasks } from '../api/tasks.js';
-
+```
  
 renderTasks komponendi App sisse ja sisu ära vahetada, et oleks järgnev
-
+```
 renderTasks() {
   return this.props.tasks.map((task) => (
     <Task key={task._id} task={task} />
   ));
 }
-
+```
 
 kõige lõppu
-
+```
 export default withTracker(() => {
   return {
     tasks: Tasks.find({}).fetch(),
@@ -290,7 +288,8 @@ export default withTracker(() => {
 
 Lisame mõned kirjed siis, et veebist näha oleks
 `meteor mongo` konsooli ja siis 
-```db.tasks.insert({ text: "Task1", createdAt: new Date() });
+```
+db.tasks.insert({ text: "Task1", createdAt: new Date() });
 ```
 lisab uue kirje
 
@@ -318,7 +317,7 @@ handleSubmit(event) {
 
   Tasks.insert({
     text,
-    createdAt: new Date(), // current time
+    createdAt: new Date(),
   });
 
   // Tühjendab vormi
@@ -326,7 +325,7 @@ handleSubmit(event) {
 }
 ```
 
-viimasena veel uuendame expordi return statementi, uus näeb välja selline
+viimasena uuendame expord'i return statement'i, uus näeb välja selline
 ```
 export default withTracker(() => {
   return {
@@ -335,9 +334,8 @@ export default withTracker(() => {
 })(App);
 ```
 
-## Taskide tehtuks märkimina ja kustutamine
-Et oleks võimalik veebis taske maha tõmmata ja kustutada, on vaja muuta **imports/ui/Task.js** faili
-Lisame impordi
+## Taskide tehtuks märkimine ja kustutamine
+Et oleks võimalik veebis taske maha tõmmata ja kustutada, on vaja muuta **imports/ui/Task.js** faili, alustame sellest, et lisame impordi
 ```
 import { Tasks } from '../api/tasks.js';
 ```
