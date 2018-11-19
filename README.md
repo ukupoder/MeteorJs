@@ -343,6 +343,11 @@ export default withTracker(() => {
 ```
 
 ## Taskide tehtuks märkimine ja kustutamine
+Lisame faili imports/ui/App.js algusesse impordi
+```
+import ReactDOM from 'react-dom';
+```
+
 Et oleks võimalik veebis taske maha tõmmata ja kustutada, on vaja muuta **imports/ui/Task.js** faili, alustame sellest, et lisame impordi
 ```
 import { Tasks } from '../api/tasks.js';
