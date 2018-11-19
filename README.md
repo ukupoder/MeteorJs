@@ -242,7 +242,7 @@ header .hide-completed {
 
 ## Taskid andmebaasist
 
-Hetkel taskid tulevad ette antud nimekirjast, mida muuta ei saa, et asju lisada ja kuskil hoida, kasutame mongot. Selleks loome faili **imports/api/task.js**, mille sisu on
+Hetkel taskid tulevad ette antud nimekirjast, mida muuta ei saa, et asju lisada ja kuskil hoida, kasutame mongot. Selleks loome faili **imports/api/tasks.js**, mille sisu on
 ```
 import { Mongo } from 'meteor/mongo';
  
